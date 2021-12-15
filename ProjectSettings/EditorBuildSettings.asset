@@ -9,6 +9,30 @@ EditorBuildSettings:
     path: Assets/Scenes/MainLobby.unity
     guid: 031f7b998f8afe94282fe8bd928ae810
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
+    path: Assets/Scenes/Level 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: 9587b5c575df50e4d9af724ad4d42135
+  - enabled: 1
+    path: Assets/Scenes/Level 3.unity
+    guid: 2bed3c3b07eecbe4299af946c3616570
+  - enabled: 1
+    path: Assets/Scenes/Level 4.unity
+    guid: 60428d2a96f8b2d40831e616f746648b
+  - enabled: 1
+    path: Assets/Scenes/Level 5.unity
+    guid: bf691cc77af8e484890d31ad3b988496
+  - enabled: 1
+    path: Assets/Scenes/Learn Level 1.unity
+    guid: c169f382f55a38849b3d1ea24d5ea44a
+  - enabled: 1
+    path: Assets/Scenes/Learn Level 2.unity
+    guid: 4034e5a949ed0d543a405dbbeb125027
+  - enabled: 1
+    path: Assets/Scenes/Learn Level 3.unity
+    guid: 3514aef0621b4ad4fbca9c981aca4121
+  - enabled: 1
+    path: Assets/Scenes/Learn Level 4.unity
+    guid: fdb74293cbd106d4d82762793fd547a9
   m_configObjects: {}

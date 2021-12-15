@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainLobbyScript : MonoBehaviour
 {
     public GameObject quitPanel;
-    //Çoklu level var ise oyuncuyu kaldýðý yerden devam etmesini saðlamak için .playerpref ile kaydederiz.
+   
     public void Quit()
     {
         quitPanel.SetActive(true);
@@ -37,7 +37,12 @@ public class MainLobbyScript : MonoBehaviour
 
     public void GameStart()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(1); //  eglence kismi
        // SceneManager.LoadScene(PlayerPrefs.GetInt("continue"));
+    }
+
+    public void LearnStart()
+    {
+        SceneManager.LoadScene(6); // Alfabe ogrenme kismi;
     }
 }

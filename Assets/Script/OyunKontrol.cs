@@ -22,7 +22,7 @@ public class OyunKontrol : MonoBehaviour
     public GameObject[] Buttons;
     public TextMeshProUGUI Sayac;
     public GameObject[] OyunSonuPanelleri;
-    public Slider TimeSlider;
+   // public Slider TimeSlider;
 
     //************* SAYAC
 
@@ -43,10 +43,10 @@ public class OyunKontrol : MonoBehaviour
     {
         SelectNumber = 0;
         Timer = true;
-        GoalSuccess = 18;
+        
         CreateState = true;
         CreateNumber = 0;
-        TotalImage = Havuz.transform.childCount; //havuzdaki toplam obje sayýsý
+        TotalImage = Havuz.transform.childCount;                        //havuzdaki toplam obje sayýsý
         //pastTime = 0;// SLÝDER için.
         //TimeSlider.value = pastTime;
         //TimeSlider.maxValue = TotalTime;
@@ -59,38 +59,22 @@ public class OyunKontrol : MonoBehaviour
     private void Update()
     {
 
-        if (Timer && TotalTime > 1)//&& pastTime!= TotalTime) slider için
+        if (Timer && TotalTime > 1)                                         //&& pastTime!= TotalTime) for slider
         {
             TotalTime -= Time.deltaTime;
 
-            Minutes = Mathf.FloorToInt(TotalTime / 60);   //dakika hesabý yapýyorum
-            Seconds = Mathf.FloorToInt(TotalTime % 60);   //Saniye hesaplama 
+            Minutes = Mathf.FloorToInt(TotalTime / 60);                     //dakika hesabý 
+            Seconds = Mathf.FloorToInt(TotalTime % 60);                     //Saniye hesaplama 
 
             // Sayac.text =Mathf.FloorToInt(TotalTime).ToString();
-
-            Sayac.text = string.Format("{0:00}:{1:00}", Minutes, Seconds);       // Stringin nasýl bir format þeklinde olmasý gerektiðini süslü parantezlerein arasýna yazýyoruz.
-
+            Sayac.text = string.Format("{0:00}:{1:00}", Minutes, Seconds);                          // Stringin nasýl bir format þeklinde olmasý gerektiðini süslü parantezlerein arasýna yazýyoruz.
         }
         else
         {
             Timer = false;
             GameOver();
         }
-        //SLÝDER YAPMAK ÝÇÝN
-
-        //if (Timer && pastTime!= TotalTime)
-        //{
-        //    pastTime += Time.deltaTime;
-
-        //    TimeSlider.value = pastTime;
-
-        //    if (TimeSlider.maxValue == TimeSlider.value)
-        //    {
-        //        Timer = false;
-        //        GameOver();
-        //    }
-
-        //}
+        
 
     }
     //Imageleri random tayin etmek için
@@ -99,14 +83,14 @@ public class OyunKontrol : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         while (CreateState)
         {
-            int Rastgele = Random.Range(0, Havuz.transform.childCount - 1);
+            int Rastgele = Random.Range(0, Havuz.transform.childCount - 1);                          //havuzdaki resim sayisi kadar
 
             //indis numarasý boþa düþmesin diye kontrol ediyoruz.
             if (Havuz.transform.GetChild(Rastgele).gameObject != null)
             {
                 Havuz.transform.GetChild(Rastgele).transform.SetParent(Grid.transform);
                 CreateNumber++;
-                if (CreateNumber == TotalImage)
+                if (CreateNumber == TotalImage)                                                      // Grid icine tüm resimler geldi? Kontrolu yapiliyor.
                 {
                     CreateState = false;
                     Destroy(Havuz.gameObject);
@@ -123,7 +107,7 @@ public class OyunKontrol : MonoBehaviour
     }
     public void GameContuine()
     {
-        OyunSonuPanelleri[2].SetActive(false);  // stop panelini kapatýyoruz.
+        OyunSonuPanelleri[2].SetActive(false);                   // stop panelini kapatýyoruz.
         Time.timeScale = 1;
 
     }
@@ -135,20 +119,22 @@ public class OyunKontrol : MonoBehaviour
     void Win()
     {
         OyunSonuPanelleri[1].SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);               // Herseyin bulunmasiyla sonraki bolume gecis
+        Time.timeScale = 1;
     }
 
     //************* Buton 
-    public void MainLobby()
-    {
+    public void MainLobby() => SceneManager.LoadScene("MainLobby");
 
-        SceneManager.LoadScene("MainLobby");
+    public void Again() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);                         //active olan sahneyi tekrar oynatmak için //buildIndex yerine .name ile de çalýþýr
 
-    }
+    public void Next() { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);                       // Sonraki bölüm icin
 
-    public void Again()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); //active olan sahneyi tekrar oynatmak için //buildIndex yerine .name ile de çalýþýr
-    }
+
+        Time.timeScale = 1; 
+    
+    }                
+
     //*********************
     public void GiveObject(GameObject obje)
     {
@@ -158,20 +144,20 @@ public class OyunKontrol : MonoBehaviour
 
         OrjinalButton.GetComponent<Image>().sprite = OrjinalButton.GetComponentInChildren<SpriteRenderer>().sprite;
 
-        OrjinalButton.GetComponent<Image>().raycastTarget = false; // seçilen Icon u týklamaz yaptýk.
+        OrjinalButton.GetComponent<Image>().raycastTarget = false;                                                  // seçilen Icon u týklamaz yaptýk.
 
-        voices[0].Play(); // her buton seçildiðinde gelen sesi ayarlamak için. + Play on awake seçeneðini kapattýk.
+        voices[0].Play();                                                                                           // her buton seçildiðinde gelen sesi ayarlamak için. + Play on awake seçeneðini kapattýk.
 
     }
 
-    void StatusOfButtons(bool ButtonStatus) // butonlarý multýClick özelliðini kapatacaðýz + buttonStatus= durum
+    void StatusOfButtons(bool ButtonStatus)                                                                         // butonlari multiClick özelliðini kapatacaðýz + buttonStatus= durum
     {
         foreach (var item in Buttons)
         {
 
             if (item != null)
             {
-                item.GetComponent<Image>().raycastTarget = ButtonStatus; // buttonlarýn Imagelerinin týklanabilirlik özelliðini butonDurumundan gelen boolean  deðer ile ayarlayacaðýz. 
+                item.GetComponent<Image>().raycastTarget = ButtonStatus;                                            // butonlarýn Imagelerinin tiklanabilirlik özelliðini butonDurumundan gelen boolean  deðer ile ayarlayacaðýz. 
             }
 
         }
@@ -189,7 +175,7 @@ public class OyunKontrol : MonoBehaviour
         if (SelectNumber == 0)
         {
             SelectNumber = price;
-            SelectedButton = OrjinalButton;// kullanýcýnýn seçtiði icon'um nosunu kaydettik. Hem de objenin image degerini tutuyoruz.
+            SelectedButton = OrjinalButton;                                                                         // kullanýcýnýn seçtiði icon'um nosunu kaydettik. Hem de objenin image degerini tutuyoruz.
         }
         else
         {
@@ -198,15 +184,12 @@ public class OyunKontrol : MonoBehaviour
     }
     IEnumerator DoControl(int price)
     {
-        StatusOfButtons(false); // Kontrol etme aþamasýnda butonlarýn durumlarýný false yapýyoruz
-
-        
+        StatusOfButtons(false);                                                                                     // Kontrol etme aþamasýnda butonlarýn durumlarýný false yapýyoruz
 
         yield return new WaitForSeconds(1);
 
         if (SelectNumber == price)
         {
-            
 
             InstantSuccess++;
 
@@ -231,15 +214,17 @@ public class OyunKontrol : MonoBehaviour
         else
         {
             voices[1].Play();
+
             //Eþleþme olmadiði için deðerleri default hale getiriyoruz.
-            SelectedButton.GetComponent<Image>().sprite = defaultSprite; //ilk butonu seçip daha sonra default haline getiriyoruz.
-            OrjinalButton.GetComponent<Image>().sprite = defaultSprite; //Seçilen butonu default olarak tanýmlamýþ oluyoruz.
 
-            /*
-            OrjinalButton.GetComponent<Image>().raycastTarget = true; // seçilen Iconlar uyuþmaz ise tekrar týklanabilir hale getirmeye yarar. ilk adým 34. satýrda
+            SelectedButton.GetComponent<Image>().sprite = defaultSprite;                                                         //ilk butonu seçip daha sonra default haline getiriyoruz.
+            OrjinalButton.GetComponent<Image>().sprite = defaultSprite;                                                          //Seçilen butonu default olarak tanýmlamýþ oluyoruz.
+
+            
+            OrjinalButton.GetComponent<Image>().raycastTarget = true;                                                           // seçilen Iconlar uyuþmaz ise tekrar týklanabilir hale getirmeye yarar. ilk adým 34. satýrda
             SelectedButton.GetComponent<Image>().raycastTarget = true;
-             */ // burada StatusOfButtons(true); iþlemi ile bu satýrlarýn görevini yapýyoruz. Kodlarda update
 
+            // burada StatusOfButtons(true); iþlemi ile bu satýrlarýn görevini yapýyoruz. Kodlarda update
 
             SelectNumber = 0;
             SelectedButton = null;
